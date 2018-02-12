@@ -28,4 +28,5 @@ dependencies {
     implementation 'com.parse.bolts:bolts-tasks:1.4.0'
     implementation 'com.parse.bolts:bolts-applinks:1.4.0'
     implementation 'com.parse:parse-android:1.16.6'
+    implementation 'com.android.support:design:26.1.0'
 }
