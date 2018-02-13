@@ -25,23 +25,23 @@ public class App extends Application {
                 .build()
         );
 
-        ParseObject object = new ParseObject("Deliverd");
-        object.put("NUMBER", "3.14");
-        object.put("STRING", "PIE");
+//        ParseObject object = new ParseObject("Deliverd");
+//        object.put("NUMBER", "3.14");
+//        object.put("STRING", "PIE");
+//
+//        object.saveInBackground(new SaveCallback () {
+//            @Override
+//            public void done(ParseException ex) {
+//                if (ex == null) {
+//                    Log.i("Parse Result", "Successful!");
+//                } else {
+//                    Log.i("Parse Result", "Failed" + ex.toString());
+//                }
+//            }
+//        });
 
-        object.saveInBackground(new SaveCallback () {
-            @Override
-            public void done(ParseException ex) {
-                if (ex == null) {
-                    Log.i("Parse Result", "Successful!");
-                } else {
-                    Log.i("Parse Result", "Failed" + ex.toString());
-                }
-            }
-        });
 
-
-        ParseUser.enableAutomaticUser();
+//        ParseUser.enableAutomaticUser();
 
         ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);
