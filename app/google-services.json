@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "256622423963",
+    "firebase_url": "https://deliverd-1487f.firebaseio.com",
+    "project_id": "deliverd-1487f",
+    "storage_bucket": "deliverd-1487f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256622423963:android:8be529898755de70",
+        "android_client_info": {
+          "package_name": "ie.deliverd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256622423963-0ohia123ao0q3e8l6ec0alsl1h7bl5da.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn8smycEetbA1EO_hfcivxWE5sSg86vOQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
