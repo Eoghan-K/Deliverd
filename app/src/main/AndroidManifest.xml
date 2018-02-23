@@ -35,10 +35,10 @@
         <activity
             android:name=".VendorDashboard"
             android:label="Dashboard" />
-        <!--<activity-->
-            <!--android:name=".CreateOrder"-->
-            <!--android:label="Create Order"-->
-            <!--android:parentActivityName=".VendorDashboard" />-->
+        <activity
+            android:name=".CreateOrder"
+            android:label="Create Order"
+            android:parentActivityName=".VendorDashboard" />
     </application>
 
 </manifest>
