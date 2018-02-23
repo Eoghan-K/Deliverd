@@ -18,15 +18,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Signup"
-            android:label="Sign Up"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:name=".DriverSignUp"
+            android:label="Driver Sign Up"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Login"
             android:label="Login"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity" />
+        <!--<activity-->
+            <!--android:name=".VendorSignUp"-->
+            <!--android:label="Vendor Sign Up"-->
+            <!--android:parentActivityName=".MainActivity" />-->
+        <!--<activity-->
+            <!--android:name=".DriverDashboard"-->
+            <!--android:label="Dashboard" />-->
+        <!--<activity-->
+            <!--android:name=".VendorDashboard"-->
+            <!--android:label="Dashboard" />-->
+        <!--<activity-->
+            <!--android:name=".CreateOrder"-->
+            <!--android:label="Create Order"-->
+            <!--android:parentActivityName=".VendorDashboard" />-->
     </application>
 
 </manifest>
