@@ -104,8 +104,6 @@ public class VendorSignUp extends AppCompatActivity implements View.OnClickListe
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     updateUsername(username);
-                    startActivity(new Intent(VendorSignUp.this, VendorDashboard.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(VendorSignUp.this);
                     builder.setMessage(task.getException().getMessage())
@@ -131,6 +129,8 @@ public class VendorSignUp extends AppCompatActivity implements View.OnClickListe
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         addUserInfoToDB();
+                        startActivity(new Intent(VendorSignUp.this, VendorDashboard.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     }
                 }
             });

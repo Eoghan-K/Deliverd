@@ -104,8 +104,6 @@ public class DriverSignUp extends AppCompatActivity implements View.OnClickListe
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()){
                     updateUsername(username);
-                    startActivity(new Intent(DriverSignUp.this, DriverDashboard.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 } else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(DriverSignUp.this);
                     builder.setMessage(task.getException().getMessage())
@@ -120,7 +118,6 @@ public class DriverSignUp extends AppCompatActivity implements View.OnClickListe
 
     private void updateUsername(String username) {
         final FirebaseUser user = mAuth.getCurrentUser();
-
         if (user != null){
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                     .setDisplayName(username)
@@ -131,6 +128,8 @@ public class DriverSignUp extends AppCompatActivity implements View.OnClickListe
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
                         addUserInfoToDB();
+                        startActivity(new Intent(DriverSignUp.this, DriverDashboard.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     }
                 }
             });
@@ -144,7 +143,6 @@ public class DriverSignUp extends AppCompatActivity implements View.OnClickListe
         String email = emailEditText.getText().toString().trim();
         String phNumber = phoneEditText.getText().toString().trim();
         String id = currentUser.getUid();
-
         Driver driver = new Driver(id, email, username, phNumber);
         drivers.child(id).setValue(driver);
     }
