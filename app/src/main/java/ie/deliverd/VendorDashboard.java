@@ -9,14 +9,28 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VendorDashboard extends AppCompatActivity {
 
     FloatingActionButton orderActionButton;
     Toolbar toolbar;
     FirebaseAuth mAuth;
+    TextView username;
+    DatabaseReference orderDB;
+    List<Order> orderList;
+    ListView listViewOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +40,12 @@ public class VendorDashboard extends AppCompatActivity {
         orderActionButton = findViewById(R.id.orderActionButton);
         toolbar = findViewById(R.id.toolbar);
         mAuth = FirebaseAuth.getInstance();
+        orderDB = FirebaseDatabase.getInstance().getReference("users/vendors/" + mAuth.getUid()+ "/orders");
+        orderList = new ArrayList<>();
+        listViewOrders = findViewById(R.id.listViewOrders);
+
+        username = findViewById(R.id.username);
+        username.setText(mAuth.getCurrentUser().getDisplayName());
 
         setSupportActionBar(toolbar);
 
@@ -52,5 +72,29 @@ public class VendorDashboard extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        orderDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                orderList.clear();
+                for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()){
+                    Order order = orderSnapshot.getValue(Order.class);
+                    orderList.add(0, order);
+                }
+
+                OrderList adapter = new OrderList(VendorDashboard.this, orderList);
+                listViewOrders.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
