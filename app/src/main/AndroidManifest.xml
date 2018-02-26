@@ -39,8 +39,10 @@
             android:name=".CreateOrder"
             android:label="Create Order"
             android:parentActivityName=".VendorDashboard" />
-        <activity android:name=".OrderList" />
-        <activity android:name=".OrderInformation"></activity>
+        <activity
+            android:name=".OrderInformation"
+            android:label="Order Info"
+            android:parentActivityName=".DriverDashboard" />
     </application>
 
 </manifest>
