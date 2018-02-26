@@ -1,8 +1,9 @@
 package ie.deliverd;
 
-import java.util.List;
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable {
     private String orderID;
     private String orderTitle;
     private String vendorID;

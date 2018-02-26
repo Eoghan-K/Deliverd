@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,20 +56,9 @@ public class DriverDashboard extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Order order = orderList.get(position);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(DriverDashboard.this);
-                builder.setMessage("Are you sure you want to deliver " + order.getOrderTitle())
-                        .setTitle("Confirm Selection")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                order.setSelected(true);
-                                DatabaseReference ordersDB = FirebaseDatabase.getInstance().getReference("users/vendors/" + order.getVendorID() + "/orders");
-                                ordersDB.child(order.getOrderID()).setValue(order);
-                            }
-                        })
-                        .setNegativeButton("No", null);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Intent intent = new Intent(DriverDashboard.this, OrderInformation.class);
+                intent.putExtra("order", (Serializable) order);
+                startActivity(intent);
             }
         });
     }
