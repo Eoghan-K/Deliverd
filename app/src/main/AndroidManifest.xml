@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ie.deliverd">
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DriverSignUp"
+            android:label="Driver Sign Up"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Login"
+            android:label="Login"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".VendorSignUp"
+            android:label="Vendor Sign Up"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".DriverDashboard"
+            android:label="Dashboard" />
+        <activity
+            android:name=".VendorDashboard"
+            android:label="Dashboard" />
+        <activity
+            android:name=".CreateOrder"
+            android:label="Create Order"
+            android:parentActivityName=".VendorDashboard" />
+        <activity
+            android:name=".OrderInformation"
+            android:label="Order Info"
+            android:parentActivityName=".DriverDashboard" />
+        <activity android:name=".Driver_Sign_Up" />
+        <activity android:name=".Driver_Sign_up_pt2" />
+        <activity android:name=".Vendor_Sign_Up" />
+        <activity android:name=".Login_template"></activity>
+    </application>
+
+</manifest>
