@@ -89,7 +89,7 @@ public class DriverDashboard extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 orderList.clear();
                 for (DataSnapshot vendorSnapshot : dataSnapshot.getChildren()){
-                    final Vendor vendor = vendorSnapshot.getValue(Vendor.class);
+                    Vendor vendor = vendorSnapshot.getValue(Vendor.class);
 
                     if (vendor.getOrders() != null){
                         for(Order order : vendor.getOrders().values()){
