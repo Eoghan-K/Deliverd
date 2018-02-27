@@ -2,33 +2,49 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.498">
 
         <Button
             android:id="@+id/Register_Btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="signUp"
-            android:text="Sign Up" />
+=======
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <Button
+            android:id="@+id/loginBtn"
+>>>>>>> 818987f7d809ecb54f929a7f6bd4faaa8f451ee0
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login" />
+
+        <Button
+<<<<<<< HEAD
             android:id="@+id/Login_Btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,5 +52,12 @@
             android:text="Login"
             tools:layout_editor_absoluteY="48dp" />
 
+=======
+            android:id="@+id/signUpBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up" />
+>>>>>>> 818987f7d809ecb54f929a7f6bd4faaa8f451ee0
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -17,51 +16,55 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Login extends AppCompatActivity {
+public class VendorSignUp extends AppCompatActivity implements View.OnClickListener {
 
+    EditText usernameEditText;
     EditText emailEditText;
     EditText passwordEditText;
-    Button loginButton;
+    EditText addressEditText;
     ProgressBar progressBar;
     Toolbar toolbar;
     FirebaseAuth mAuth;
-    DatabaseReference userDatabase;
+    DatabaseReference vendors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_vendor_sign_up);
 
+        usernameEditText = findViewById(R.id.usernameFld);
         emailEditText = findViewById(R.id.emailFld);
         passwordEditText = findViewById(R.id.passwordFld);
-        loginButton = findViewById(R.id.loginBtn);
+        addressEditText = findViewById(R.id.addressFld);
         progressBar = findViewById(R.id.progressBar);
         toolbar = findViewById(R.id.toolbar);
 
         mAuth = FirebaseAuth.getInstance();
-        userDatabase = FirebaseDatabase.getInstance().getReference("users");
+        vendors = FirebaseDatabase.getInstance().getReference("users/vendors");
+
+        findViewById(R.id.signUpBtn).setOnClickListener(this);
+        findViewById(R.id.driverSignUp).setOnClickListener(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logUserIn();
-            }
-        });
     }
 
-    private void logUserIn() {
+    private void signUpUser() {
+        final String username = usernameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
+        String address = addressEditText.getText().toString().trim();
+
+        if (username.equals("")) {
+            usernameEditText.setError("A username is required");
+            usernameEditText.requestFocus();
+            return;
+        }
 
         if (email.equals("")) {
             emailEditText.setError("An email address is required");
@@ -87,16 +90,22 @@ public class Login extends AppCompatActivity {
             return;
         }
 
+        if (address.equals("")) {
+            addressEditText.setError("An address is required");
+            addressEditText.requestFocus();
+            return;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-                    getUserType();
+                    updateUsername(username);
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(VendorSignUp.this);
                     builder.setMessage(task.getException().getMessage())
                             .setTitle("Oops..")
                             .setPositiveButton("OK", null);
@@ -107,44 +116,49 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void getUserType() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        final String uid = user.getUid();
+    private void updateUsername(String username) {
+        final FirebaseUser user = mAuth.getCurrentUser();
 
-        userDatabase.orderByValue().addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Driver driver = dataSnapshot.child(uid).getValue(Driver.class);
-                if (driver != null){
-                    if (driver.getDriverId() != null){
-                        startActivity(new Intent(Login.this, DriverDashboard.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                    } else{
-                        startActivity(new Intent(Login.this, VendorDashboard.class)
+        if (user != null) {
+            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(username)
+                    .build();
+
+            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        addUserInfoToDB();
+                        startActivity(new Intent(VendorSignUp.this, VendorDashboard.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     }
                 }
-            }
+            });
+        }
+    }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+    private void addUserInfoToDB() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-            }
+        String username = usernameEditText.getText().toString().trim();
+        String email = emailEditText.getText().toString().trim();
+        String address = addressEditText.getText().toString().trim();
+        String id = currentUser.getUid();
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+        Vendor vendor = new Vendor(id, email, username, address);
+        vendors.child(id).setValue(vendor);
+    }
 
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.signUpBtn:
+                signUpUser();
+                break;
+            case R.id.driverSignUp:
+                startActivity(new Intent(this, DriverSignUp.class));
+                finish();
+                break;
+        }
     }
 }
