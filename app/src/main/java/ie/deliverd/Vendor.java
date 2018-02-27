@@ -1,10 +1,11 @@
 package ie.deliverd;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Vendor {
+public class Vendor implements Serializable {
     private String vendorId;
     private String email;
     private String username;
