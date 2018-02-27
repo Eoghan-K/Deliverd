@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="ie.deliverd.User_Selection">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,22 +19,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498">
+        app:layout_constraintVertical_bias="0.448">
 
         <Button
-            android:id="@+id/Register_Btn"
+            android:id="@+id/Driver_Slct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="signUp"
-            android:text="Sign Up" />
+            android:text="@string/driver" />
 
         <Button
-            android:id="@+id/Login_Btn"
+            android:id="@+id/Vendor_Slct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="login"
-            android:text="Login"
-            tools:layout_editor_absoluteY="48dp" />
-
+            android:text="@string/vendor" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

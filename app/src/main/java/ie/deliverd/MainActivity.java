@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     Intent intent;
 
     public void signUp(View view){
-        intent = new Intent(this, Signup.class);
+        intent = new Intent(this, Signup_driver.class);
         startActivity(intent);
     }
 

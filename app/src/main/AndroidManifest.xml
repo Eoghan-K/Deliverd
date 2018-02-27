@@ -18,15 +18,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Signup"
+            android:name=".Signup_driver"
             android:label="Sign Up"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Login"
             android:label="Login"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".User_Selection" />
+        <activity android:name=".Signup_vendor"></activity>
     </application>
 
 </manifest>
