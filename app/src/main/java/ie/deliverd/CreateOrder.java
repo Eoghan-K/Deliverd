@@ -1,9 +1,6 @@
 package ie.deliverd;
 
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,10 +15,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 public class CreateOrder extends AppCompatActivity {
 
@@ -49,8 +42,6 @@ public class CreateOrder extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
         ordersDB = FirebaseDatabase.getInstance().getReference("users/vendors/" + mAuth.getUid() + "/orders");
-
-//        pickUpAddrEditText.setText();
 
         findViewById(R.id.submitOrderBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,33 +92,12 @@ public class CreateOrder extends AppCompatActivity {
             return;
         }
 
-        double[] pickUpLatLong = findLatLong(pickUpAddr);
-        double[] deliveryLatLong = findLatLong(customerAddr);
-
         String id = ordersDB.push().getKey();
-        Order order = new Order(id, orderTitle, mAuth.getUid(), pickUpAddr, customerName, customerAddr, customerPhAddr, pickUpLatLong[0], pickUpLatLong[1], deliveryLatLong[0], deliveryLatLong[1]);
+        Order order = new Order(id, orderTitle, mAuth.getUid(), pickUpAddr, customerName, customerAddr, customerPhAddr);
 
         ordersDB.child(id).setValue(order);
         Toast.makeText(this, "Order Created", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, VendorDashboard.class));
-    }
-
-    @NonNull
-    private double[] findLatLong(String addr) {
-        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-        double[] latLong = new double[2];
-
-        try {
-            List<Address> addressList = geocoder.getFromLocationName(addr, 1);
-            if (addressList != null && addressList.size() > 0){
-                latLong[0] = addressList.get(0).getLatitude();
-                latLong[1] = addressList.get(0).getLongitude();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return latLong;
     }
 
     @Override
