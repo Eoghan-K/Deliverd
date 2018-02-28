@@ -15,7 +15,8 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:id="@+id/customerName"
@@ -26,6 +27,7 @@
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/orderTitle"
+        android:layout_marginLeft="8dp" />
 
 </android.support.constraint.ConstraintLayout>

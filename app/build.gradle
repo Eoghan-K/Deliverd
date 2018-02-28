@@ -39,15 +39,4 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
 }
 
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
->>>>>>> 818987f7d809ecb54f929a7f6bd4faaa8f451ee0
 apply plugin: 'com.google.gms.google-services'
