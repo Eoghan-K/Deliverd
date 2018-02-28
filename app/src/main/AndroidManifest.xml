@@ -18,22 +18,13 @@
             </intent-filter>
         </activity>
         <activity
-<<<<<<< HEAD
-            android:name=".Signup_driver"
-            android:label="Sign Up"
-=======
             android:name=".DriverSignUp"
             android:label="Driver Sign Up"
->>>>>>> 818987f7d809ecb54f929a7f6bd4faaa8f451ee0
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Login"
             android:label="Login"
             android:parentActivityName=".MainActivity" />
-<<<<<<< HEAD
-        <activity android:name=".User_Selection" />
-        <activity android:name=".Signup_vendor"></activity>
-=======
         <activity
             android:name=".VendorSignUp"
             android:label="Vendor Sign Up"
@@ -52,7 +43,6 @@
             android:name=".OrderInformation"
             android:label="Order Info"
             android:parentActivityName=".DriverDashboard" />
->>>>>>> 818987f7d809ecb54f929a7f6bd4faaa8f451ee0
     </application>
 
 </manifest>
