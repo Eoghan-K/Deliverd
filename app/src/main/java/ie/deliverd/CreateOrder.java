@@ -100,10 +100,10 @@ public class CreateOrder extends AppCompatActivity {
         }
 
         double[] pickUpLatLong = findLatLong(pickUpAddr);
-        double[] deliveryLatLong = findLatLong(customerAddr);
+        double[] customerLatLong = findLatLong(customerAddr);
 
         String id = ordersDB.push().getKey();
-        Order order = new Order(id, orderTitle, mAuth.getUid(), pickUpAddr, customerName, customerAddr, customerPhAddr, pickUpLatLong[0], pickUpLatLong[1], deliveryLatLong[0], deliveryLatLong[1]);
+        Order order = new Order(id, orderTitle, mAuth.getUid(), pickUpAddr, customerName, customerAddr, customerPhAddr, pickUpLatLong[0], pickUpLatLong[1], customerLatLong[0], customerLatLong[1]);
 
         ordersDB.child(id).setValue(order);
         Toast.makeText(this, "Order Created", Toast.LENGTH_SHORT).show();

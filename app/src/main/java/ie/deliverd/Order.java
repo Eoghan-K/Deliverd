@@ -20,7 +20,7 @@ public class Order implements Serializable {
     public  Order(){}
 
     public Order(String orderID, String orderTitle, String vendorID, String pickUpAddr, String customerName, String
-            customerAddr, String customerPh, final double pickUpLat, final double pickUpLong, final double deliveryLat, final double deliveryLong) {
+            customerAddr, String customerPh, final double pickUpLat, final double pickUpLong, final double customerLat, final double customerLong) {
         this.orderID = orderID;
         this.orderTitle = orderTitle;
         this.vendorID = vendorID;
@@ -34,8 +34,8 @@ public class Order implements Serializable {
             add(pickUpLong);
         }};
         customerLatLong = new ArrayList<Double>(){{
-            add(deliveryLat);
-            add(deliveryLong);
+            add(customerLat);
+            add(customerLong);
         }};
     }
 
@@ -43,7 +43,7 @@ public class Order implements Serializable {
         return pickUpLatLong;
     }
 
-    public List<Double> getDeliveryLatLong() {
+    public List<Double> getCustomerLatLong() {
         return customerLatLong;
     }
 
