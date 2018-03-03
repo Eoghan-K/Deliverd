@@ -13,9 +13,9 @@ public class Order implements Serializable {
     private String customerName;
     private String customerAddr;
     private String customerPh;
-    private boolean isSelected;
     private List<Double> pickUpLatLong;
     private List<Double> customerLatLong;
+    private OrderStatus orderStatus;
 
     public  Order(){}
 
@@ -28,7 +28,6 @@ public class Order implements Serializable {
         this.customerName = customerName;
         this.customerAddr = customerAddr;
         this.customerPh = customerPh;
-        this.isSelected = false;
         pickUpLatLong = new ArrayList<Double>(){{
             add(pickUpLat);
             add(pickUpLong);
@@ -37,6 +36,7 @@ public class Order implements Serializable {
             add(customerLat);
             add(customerLong);
         }};
+        orderStatus = new OrderStatus();
     }
 
     public List<Double> getPickUpLatLong() {
@@ -45,10 +45,6 @@ public class Order implements Serializable {
 
     public List<Double> getCustomerLatLong() {
         return customerLatLong;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
     }
 
     public String getOrderID() {
@@ -79,7 +75,7 @@ public class Order implements Serializable {
         return customerPh;
     }
 
-    public boolean isSelected() {
-        return isSelected;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 }

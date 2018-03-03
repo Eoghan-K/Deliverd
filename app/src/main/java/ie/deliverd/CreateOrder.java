@@ -102,6 +102,18 @@ public class CreateOrder extends AppCompatActivity {
         double[] pickUpLatLong = findLatLong(pickUpAddr);
         double[] customerLatLong = findLatLong(customerAddr);
 
+        if (pickUpLatLong[0] == 0 || pickUpLatLong[1] == 0){
+            pickUpAddrEditText.setError("Could not locate address");
+            pickUpAddrEditText.requestFocus();
+            return;
+        }
+
+        if (customerLatLong[0] == 0 || customerLatLong[1] == 0){
+            customerAddrEditText.setError("Could not locate address");
+            customerAddrEditText.requestFocus();
+            return;
+        }
+
         String id = ordersDB.push().getKey();
         Order order = new Order(id, orderTitle, mAuth.getUid(), pickUpAddr, customerName, customerAddr, customerPhAddr, pickUpLatLong[0], pickUpLatLong[1], customerLatLong[0], customerLatLong[1]);
 

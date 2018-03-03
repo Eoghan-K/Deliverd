@@ -93,7 +93,7 @@ public class DriverDashboard extends AppCompatActivity {
 
                     if (vendor.getOrders() != null){
                         for(Order order : vendor.getOrders().values()){
-                            if (!order.isSelected()){
+                            if (!order.getOrderStatus().isSelected()){
                                 orderList.add(order);
                             }
                         }

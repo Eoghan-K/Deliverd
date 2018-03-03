@@ -43,6 +43,7 @@ import java.util.List;
 public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Order order;
     private double[] pLatLong;
     private double[] cLatLong;
     private int state;
@@ -59,12 +60,15 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        pLatLong = getIntent().getDoubleArrayExtra("pLatLong");
-        cLatLong = getIntent().getDoubleArrayExtra("cLatLong");
+        order = (Order) getIntent().getSerializableExtra("order");
+        
+        pLatLong = new double[]{order.getPickUpLatLong().get(0), order.getPickUpLatLong().get(1)};
+        cLatLong = new double[]{order.getCustomerLatLong().get(0), order.getCustomerLatLong().get(1)};
         state = 0;
         stateBtn = findViewById(R.id.stateBtn);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission
+                .ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
                     .ACCESS_FINE_LOCATION}, 1);
@@ -77,8 +81,9 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
 
         stateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (state == 0){
+            public void
+            onClick(View v) {
+                if (state == 0) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(DriverMap.this);
                     builder.setMessage("Are you sure you want to start the journey")
                             .setTitle("Start Journey")
@@ -93,7 +98,7 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
                             .setNegativeButton("No", null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else if(state == 1){
+                } else if (state == 1) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(DriverMap.this);
                     builder.setMessage("Confirm that you have picked up the order")
                             .setTitle("Confirm Order Pickup")
@@ -108,14 +113,15 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
                             .setNegativeButton("No", null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else if(state == 2){
+                } else if (state == 2) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(DriverMap.this);
                     builder.setMessage("Confirm that you have delivered the order")
                             .setTitle("Confirm Order Delivery")
                             .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(DriverMap.this, DriverDashboard.class));
+                                    startActivity(new Intent(DriverMap.this, DriverDashboard
+                                            .class));
                                     finish();
                                 }
                             })
@@ -132,101 +138,51 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission
+                .ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
                     .ACCESS_FINE_LOCATION}, 1);
         }
 
-        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager
-                .GPS_PROVIDER);
-        LatLng lastLoc = new LatLng(lastKnownLocation.getLatitude(),
-                lastKnownLocation.getLongitude());
-        final LatLng dest = new LatLng(latLong[0], latLong[1]);
+        final LatLng destination = new LatLng(latLong[0], latLong[1]);
 
-        LatLngBounds bounds = new LatLngBounds.Builder().include(lastLoc).include(dest).build();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 75));
+        try {
+            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager
+                    .GPS_PROVIDER);
+            LatLng lastLoc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation
+                    .getLongitude());
+            LatLngBounds bounds = new LatLngBounds.Builder().include(lastLoc).include
+                    (destination).build();
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 75));
+        } catch (NullPointerException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
 
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(dest).title("Destination"));
+                mMap.addMarker(new MarkerOptions().position(destination).title("Destination"));
 
-                LatLng post = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(post).title("You").icon
+                LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(currentPosition).title("You").icon
                         (BitmapDescriptorFactory.fromResource(R.drawable.icon)));
 
                 CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(post)
+                        .target(currentPosition)
                         .zoom(mMap.getCameraPosition().zoom)
                         .bearing(mMap.getCameraPosition().bearing)
                         .tilt(mMap.getCameraPosition().tilt)
                         .build();
 
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 3000, null);
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 3000,
+                        null);
 
-                String des = Double.toString(latLong[0]) + "," + Double.toString(latLong[1]);
-                String pos = location.getLatitude() + "," + location.getLongitude();
+                String dest = Double.toString(latLong[0]) + "," + Double.toString(latLong[1]);
+                String post = location.getLatitude() + "," + location.getLongitude();
 
-                List<LatLng> path = new ArrayList<>();
-
-                GeoApiContext context = new GeoApiContext.Builder()
-                        .apiKey("AIzaSyCsMnZS9fYj9otRB8tKC-GVqtnKcorUleU")
-                        .build();
-
-                DirectionsApiRequest req = DirectionsApi.getDirections(context, pos, des);
-                try {
-                    DirectionsResult res = req.await();
-
-                    if (res.routes != null && res.routes.length > 0) {
-                        DirectionsRoute route = res.routes[0];
-
-                        if (route.legs != null) {
-                            for (int i = 0; i < route.legs.length; i++) {
-                                DirectionsLeg leg = route.legs[i];
-                                if (leg.steps != null) {
-                                    for (int j = 0; j < leg.steps.length; j++) {
-                                        DirectionsStep step = leg.steps[j];
-                                        if (step.steps != null && step.steps.length > 0) {
-                                            for (int k = 0; k < step.steps.length; k++) {
-                                                DirectionsStep step1 = step.steps[k];
-                                                EncodedPolyline points1 = step1.polyline;
-                                                if (points1 != null) {
-                                                    List<com.google.maps.model.LatLng> coords1 =
-                                                            points1.decodePath();
-                                                    for (com.google.maps.model.LatLng coord1 :
-                                                            coords1) {
-                                                        path.add(new LatLng(coord1.lat,
-                                                                coord1.lng));
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            EncodedPolyline points = step.polyline;
-                                            if (points != null) {
-                                                List<com.google.maps.model.LatLng> coords1 = points
-                                                        .decodePath();
-                                                for (com.google.maps.model.LatLng coord1 :
-                                                        coords1) {
-                                                    path.add(new LatLng(coord1.lat, coord1.lng));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getLocalizedMessage());
-                }
-
-                if (path.size() > 0) {
-                    PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.BLUE)
-                            .width(5);
-                    mMap.addPolyline(opts);
-                }
+                drawMap(dest, post);
             }
 
             @Override
@@ -245,12 +201,75 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
             }
         };
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission
+                .ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
                     .ACCESS_FINE_LOCATION}, 1);
         } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1,
+                    locationListener);
+        }
+    }
+
+    private void drawMap(String dest, String post) {
+        List<LatLng> path = new ArrayList<>();
+
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey("AIzaSyCsMnZS9fYj9otRB8tKC-GVqtnKcorUleU")
+                .build();
+
+        DirectionsApiRequest req = DirectionsApi.getDirections(context, post, dest);
+        try {
+            DirectionsResult res = req.await();
+
+            if (res.routes != null && res.routes.length > 0) {
+                DirectionsRoute route = res.routes[0];
+
+                if (route.legs != null) {
+                    for (int i = 0; i < route.legs.length; i++) {
+                        DirectionsLeg leg = route.legs[i];
+                        if (leg.steps != null) {
+                            for (int j = 0; j < leg.steps.length; j++) {
+                                DirectionsStep step = leg.steps[j];
+                                if (step.steps != null && step.steps.length > 0) {
+                                    for (int k = 0; k < step.steps.length; k++) {
+                                        DirectionsStep step1 = step.steps[k];
+                                        EncodedPolyline points1 = step1.polyline;
+                                        if (points1 != null) {
+                                            List<com.google.maps.model.LatLng> coords1 =
+                                                    points1.decodePath();
+                                            for (com.google.maps.model.LatLng coord1 :
+                                                    coords1) {
+                                                path.add(new LatLng(coord1.lat,
+                                                        coord1.lng));
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    EncodedPolyline points = step.polyline;
+                                    if (points != null) {
+                                        List<com.google.maps.model.LatLng> coords1 = points
+                                                .decodePath();
+                                        for (com.google.maps.model.LatLng coord1 :
+                                                coords1) {
+                                            path.add(new LatLng(coord1.lat, coord1.lng));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+
+        if (path.size() > 0) {
+            PolylineOptions polylineOptions = new PolylineOptions().addAll(path).color(Color.BLUE)
+                    .width(5);
+            mMap.addPolyline(polylineOptions);
         }
     }
 
@@ -263,8 +282,12 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this, android.Manifest.permission
                         .ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1,
-                            locationListener);
+                    try {
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1,
+                                locationListener);
+                    } catch (NullPointerException ex) {
+                        System.out.println(ex.getLocalizedMessage());
+                    }
                 }
             }
         }

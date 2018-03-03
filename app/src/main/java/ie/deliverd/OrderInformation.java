@@ -70,11 +70,8 @@ public class OrderInformation extends AppCompatActivity {
 //                                DatabaseReference ordersDB = FirebaseDatabase.getInstance().getReference("users/vendors/" + order.getVendorID() + "/orders");
 //                                ordersDB.child(order.getOrderID()).setValue(order);
 
-                                double[] pLatLong = new double[]{order.getPickUpLatLong().get(0), order.getPickUpLatLong().get(1)};
-                                double[] cLatLong = new double[]{order.getCustomerLatLong().get(0), order.getCustomerLatLong().get(1)};
                                 Intent intent = new Intent(OrderInformation.this, DriverMap.class);
-                                intent.putExtra("pLatLong", pLatLong);
-                                intent.putExtra("cLatLong", cLatLong);
+                                intent.putExtra("order",order);
                                 startActivity(intent);
 
                             }
