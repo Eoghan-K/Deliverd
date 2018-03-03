@@ -25,15 +25,15 @@ import java.util.Locale;
 
 public class CreateOrder extends AppCompatActivity {
 
-    Toolbar toolbar;
-    EditText orderTitleEditText;
-    EditText pickUpAddrEditText;
-    EditText customerNameEditText;
-    EditText customerAddrEditText;
-    EditText customerPhEditText;
-    ProgressBar progressBar;
-    FirebaseAuth mAuth;
-    DatabaseReference ordersDB;
+    private Toolbar toolbar;
+    private EditText orderTitleEditText;
+    private EditText pickUpAddrEditText;
+    private EditText customerNameEditText;
+    private EditText customerAddrEditText;
+    private EditText customerPhEditText;
+    private ProgressBar progressBar;
+    private FirebaseAuth mAuth;
+    private DatabaseReference ordersDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +100,22 @@ public class CreateOrder extends AppCompatActivity {
         }
 
         double[] pickUpLatLong = findLatLong(pickUpAddr);
-        double[] deliveryLatLong = findLatLong(customerAddr);
+        double[] customerLatLong = findLatLong(customerAddr);
+
+        if (pickUpLatLong[0] == 0 || pickUpLatLong[1] == 0){
+            pickUpAddrEditText.setError("Could not locate address");
+            pickUpAddrEditText.requestFocus();
+            return;
+        }
+
+        if (customerLatLong[0] == 0 || customerLatLong[1] == 0){
+            customerAddrEditText.setError("Could not locate address");
+            customerAddrEditText.requestFocus();
+            return;
+        }
 
         String id = ordersDB.push().getKey();
-        Order order = new Order(id, orderTitle, mAuth.getUid(), pickUpAddr, customerName, customerAddr, customerPhAddr, pickUpLatLong[0], pickUpLatLong[1], deliveryLatLong[0], deliveryLatLong[1]);
+        Order order = new Order(id, orderTitle, mAuth.getUid(), pickUpAddr, customerName, customerAddr, customerPhAddr, pickUpLatLong[0], pickUpLatLong[1], customerLatLong[0], customerLatLong[1]);
 
         ordersDB.child(id).setValue(order);
         Toast.makeText(this, "Order Created", Toast.LENGTH_SHORT).show();

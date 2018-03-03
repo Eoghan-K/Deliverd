@@ -17,18 +17,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class OrderInformation extends AppCompatActivity {
+public class OrderDetails extends AppCompatActivity {
 
-    Toolbar toolbar;
-    FirebaseAuth mAuth;
-    Order order;
-    TextView orderTitle;
-    TextView pickUpAddr;
-    TextView customerName;
-    TextView customerAddr;
-    TextView customerPh;
-    Button confirmButton;
-    Button cancelButton;
+    private Toolbar toolbar;
+    private FirebaseAuth mAuth;
+    private Order order;
+    private TextView orderTitle;
+    private TextView pickUpAddr;
+    private TextView customerName;
+    private TextView customerAddr;
+    private TextView customerPh;
+    private Button confirmButton;
+    private Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +60,20 @@ public class OrderInformation extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(OrderInformation.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetails.this);
                 builder.setMessage("Are you sure you want to deliver " + order.getOrderTitle())
                         .setTitle("Confirm Selection")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                order.setSelected(true);
+                                order.getOrderStatus().setSelected(true);
                                 DatabaseReference ordersDB = FirebaseDatabase.getInstance().getReference("users/vendors/" + order.getVendorID() + "/orders");
                                 ordersDB.child(order.getOrderID()).setValue(order);
+
+                                Intent intent = new Intent(OrderDetails.this, DriverMap.class);
+                                intent.putExtra("order",order);
+                                startActivity(intent);
+
                             }
                         })
                         .setNegativeButton("No", null);
@@ -80,7 +85,7 @@ public class OrderInformation extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OrderInformation.this, DriverDashboard.class));
+                startActivity(new Intent(OrderDetails.this, DriverDashboard.class));
             }
         });
     }

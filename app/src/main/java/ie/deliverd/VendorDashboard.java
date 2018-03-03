@@ -24,13 +24,13 @@ import java.util.List;
 
 public class VendorDashboard extends AppCompatActivity {
 
-    FloatingActionButton orderActionButton;
-    Toolbar toolbar;
-    FirebaseAuth mAuth;
-    TextView username;
-    DatabaseReference orderDB;
-    List<Order> orderList;
-    ListView listViewOrders;
+    private FloatingActionButton orderActionButton;
+    private Toolbar toolbar;
+    private FirebaseAuth mAuth;
+    private TextView username;
+    private DatabaseReference orderDB;
+    private List<Order> orderList;
+    private ListView listViewOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -22,14 +22,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class VendorSignUp extends AppCompatActivity implements View.OnClickListener {
 
-    EditText usernameEditText;
-    EditText emailEditText;
-    EditText passwordEditText;
-    EditText addressEditText;
-    ProgressBar progressBar;
-    Toolbar toolbar;
-    FirebaseAuth mAuth;
-    DatabaseReference vendors;
+    private EditText usernameEditText;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private EditText addressEditText;
+    private ProgressBar progressBar;
+    private Toolbar toolbar;
+    private FirebaseAuth mAuth;
+    private DatabaseReference vendors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

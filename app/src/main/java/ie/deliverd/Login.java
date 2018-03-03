@@ -25,13 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Login extends AppCompatActivity {
 
-    EditText emailEditText;
-    EditText passwordEditText;
-    Button loginButton;
-    ProgressBar progressBar;
-    Toolbar toolbar;
-    FirebaseAuth mAuth;
-    DatabaseReference userDatabase;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private Button loginButton;
+    private ProgressBar progressBar;
+    private Toolbar toolbar;
+    private FirebaseAuth mAuth;
+    private DatabaseReference userDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

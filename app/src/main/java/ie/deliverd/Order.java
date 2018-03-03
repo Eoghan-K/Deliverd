@@ -13,14 +13,14 @@ public class Order implements Serializable {
     private String customerName;
     private String customerAddr;
     private String customerPh;
-    private boolean isSelected;
     private List<Double> pickUpLatLong;
     private List<Double> customerLatLong;
+    private OrderStatus orderStatus;
 
     public  Order(){}
 
     public Order(String orderID, String orderTitle, String vendorID, String pickUpAddr, String customerName, String
-            customerAddr, String customerPh, final double pickUpLat, final double pickUpLong, final double deliveryLat, final double deliveryLong) {
+            customerAddr, String customerPh, final double pickUpLat, final double pickUpLong, final double customerLat, final double customerLong) {
         this.orderID = orderID;
         this.orderTitle = orderTitle;
         this.vendorID = vendorID;
@@ -28,27 +28,23 @@ public class Order implements Serializable {
         this.customerName = customerName;
         this.customerAddr = customerAddr;
         this.customerPh = customerPh;
-        this.isSelected = false;
         pickUpLatLong = new ArrayList<Double>(){{
             add(pickUpLat);
             add(pickUpLong);
         }};
         customerLatLong = new ArrayList<Double>(){{
-            add(deliveryLat);
-            add(deliveryLong);
+            add(customerLat);
+            add(customerLong);
         }};
+        orderStatus = new OrderStatus();
     }
 
     public List<Double> getPickUpLatLong() {
         return pickUpLatLong;
     }
 
-    public List<Double> getDeliveryLatLong() {
+    public List<Double> getCustomerLatLong() {
         return customerLatLong;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
     }
 
     public String getOrderID() {
@@ -79,7 +75,7 @@ public class Order implements Serializable {
         return customerPh;
     }
 
-    public boolean isSelected() {
-        return isSelected;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 }

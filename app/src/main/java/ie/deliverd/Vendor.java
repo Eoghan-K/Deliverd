@@ -1,8 +1,6 @@
 package ie.deliverd;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Vendor {
     private String vendorId;
