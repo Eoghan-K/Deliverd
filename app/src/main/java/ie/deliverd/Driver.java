@@ -2,10 +2,10 @@ package ie.deliverd;
 
 
 public class Driver {
-    String driverId;
-    String email;
-    String username;
-    String phNumber;
+    private String driverId;
+    private String email;
+    private String username;
+    private String phNumber;
 
     public Driver(){
 

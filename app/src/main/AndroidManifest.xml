@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -43,7 +42,7 @@
             android:label="Create Order"
             android:parentActivityName=".VendorDashboard" />
         <activity
-            android:name=".OrderInformation"
+            android:name=".OrderDetails"
             android:label="Order Info"
             android:parentActivityName=".DriverDashboard" />
 

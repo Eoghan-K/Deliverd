@@ -1,6 +1,7 @@
 package ie.deliverd;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,12 +10,15 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,12 +26,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
@@ -48,8 +55,10 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
     private double[] cLatLong;
     private int state;
     private Button stateBtn;
+    private Button cancelBtn;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +70,14 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         order = (Order) getIntent().getSerializableExtra("order");
-        
+        ref = FirebaseDatabase.getInstance().getReference("users/vendors/" + order.getVendorID() + "/orders");
+
         pLatLong = new double[]{order.getPickUpLatLong().get(0), order.getPickUpLatLong().get(1)};
-        cLatLong = new double[]{order.getCustomerLatLong().get(0), order.getCustomerLatLong().get(1)};
+        cLatLong = new double[]{order.getCustomerLatLong().get(0), order.getCustomerLatLong().get
+                (1)};
         state = 0;
         stateBtn = findViewById(R.id.stateBtn);
+        cancelBtn = findViewById(R.id.cancelBtn);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission
                 .ACCESS_FINE_LOCATION) !=
@@ -78,6 +90,7 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
         stateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +121,8 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
                                     getDirections(cLatLong);
                                     stateBtn.setText("Delivery Complete");
                                     state = 2;
+                                    order.getOrderStatus().setItemCollected(true);
+                                    ref.child(order.getOrderID()).setValue(order);
                                 }
                             })
                             .setNegativeButton("No", null);
@@ -120,6 +135,8 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
                             .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    order.getOrderStatus().setDelivered(true);
+                                    ref.child(order.getOrderID()).setValue(order);
                                     startActivity(new Intent(DriverMap.this, DriverDashboard
                                             .class));
                                     finish();
@@ -131,6 +148,30 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
                 }
             }
         });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DriverMap.this);
+                builder.setMessage("Are ou sure you want to cancel?")
+                        .setTitle("Cancel Delivery")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                order.getOrderStatus().setSelected(false);
+                                order.getOrderStatus().setItemCollected(false);
+                                order.getOrderStatus().setDelivered(false);
+                                ref.child(order.getOrderID()).setValue(order);
+                                startActivity(new Intent(DriverMap.this, DriverDashboard
+                                        .class));
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     private void getDirections(final double[] latLong) {
@@ -138,11 +179,14 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission
-                .ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
-                    .ACCESS_FINE_LOCATION}, 1);
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission
+                    .ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
+                        .ACCESS_FINE_LOCATION}, 1);
+            }
         }
 
         final LatLng destination = new LatLng(latLong[0], latLong[1]);
@@ -165,7 +209,8 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(destination).title("Destination"));
 
-                LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng currentPosition = new LatLng(location.getLatitude(), location.getLongitude
+                        ());
                 mMap.addMarker(new MarkerOptions().position(currentPosition).title("You").icon
                         (BitmapDescriptorFactory.fromResource(R.drawable.icon)));
 
@@ -201,15 +246,7 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
             }
         };
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission
-                .ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission
-                    .ACCESS_FINE_LOCATION}, 1);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1,
-                    locationListener);
-        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, locationListener);
     }
 
     private void drawMap(String dest, String post) {
@@ -289,6 +326,11 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
                         System.out.println(ex.getLocalizedMessage());
                     }
                 }
+            } else {
+                order.getOrderStatus().setSelected(false);
+                ref.child(order.getOrderID()).setValue(order);
+                startActivity(new Intent(this, DriverDashboard.class));
+                finish();
             }
         }
     }

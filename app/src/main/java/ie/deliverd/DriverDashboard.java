@@ -1,8 +1,6 @@
 package ie.deliverd;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,12 +25,12 @@ import java.util.List;
 
 public class DriverDashboard extends AppCompatActivity {
 
-    Toolbar toolbar;
-    FirebaseAuth mAuth;
-    TextView username;
-    DatabaseReference vendorsDB;
-    List<Order> orderList;
-    ListView listViewOrders;
+    private Toolbar toolbar;
+    private FirebaseAuth mAuth;
+    private TextView username;
+    private DatabaseReference vendorsDB;
+    private List<Order> orderList;
+    private ListView listViewOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +53,8 @@ public class DriverDashboard extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Order order = orderList.get(position);
 
-                Intent intent = new Intent(DriverDashboard.this, OrderInformation.class);
-                intent.putExtra("order", (Serializable) order);
+                Intent intent = new Intent(DriverDashboard.this, OrderDetails.class);
+                intent.putExtra("order", order);
                 startActivity(intent);
             }
         });

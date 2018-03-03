@@ -25,15 +25,15 @@ import java.util.Locale;
 
 public class CreateOrder extends AppCompatActivity {
 
-    Toolbar toolbar;
-    EditText orderTitleEditText;
-    EditText pickUpAddrEditText;
-    EditText customerNameEditText;
-    EditText customerAddrEditText;
-    EditText customerPhEditText;
-    ProgressBar progressBar;
-    FirebaseAuth mAuth;
-    DatabaseReference ordersDB;
+    private Toolbar toolbar;
+    private EditText orderTitleEditText;
+    private EditText pickUpAddrEditText;
+    private EditText customerNameEditText;
+    private EditText customerAddrEditText;
+    private EditText customerPhEditText;
+    private ProgressBar progressBar;
+    private FirebaseAuth mAuth;
+    private DatabaseReference ordersDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

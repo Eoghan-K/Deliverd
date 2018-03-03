@@ -16,10 +16,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    FirebaseAuth mAuth;
-    FirebaseUser user;
-    DatabaseReference userDatabase;
-    Toolbar toolbar;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private DatabaseReference userDatabase;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

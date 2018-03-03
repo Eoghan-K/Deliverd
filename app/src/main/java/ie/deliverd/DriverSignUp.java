@@ -22,14 +22,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverSignUp extends AppCompatActivity implements View.OnClickListener {
 
-    EditText usernameEditText;
-    EditText emailEditText;
-    EditText passwordEditText;
-    EditText phoneEditText;
-    ProgressBar progressBar;
-    Toolbar toolbar;
-    FirebaseAuth mAuth;
-    DatabaseReference drivers;
+    private EditText usernameEditText;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private EditText phoneEditText;
+    private ProgressBar progressBar;
+    private Toolbar toolbar;
+    private FirebaseAuth mAuth;
+    private DatabaseReference drivers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
