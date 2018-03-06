@@ -153,7 +153,7 @@ public class DriverMap extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DriverMap.this);
-                builder.setMessage("Are ou sure you want to cancel?")
+                builder.setMessage("Are you sure you want to cancel?")
                         .setTitle("Cancel Delivery")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
