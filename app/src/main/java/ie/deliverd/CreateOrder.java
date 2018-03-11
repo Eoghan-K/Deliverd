@@ -25,13 +25,12 @@ import java.util.Locale;
 
 public class CreateOrder extends AppCompatActivity {
 
-    private Toolbar toolbar;
     private EditText orderTitleEditText;
     private EditText pickUpAddrEditText;
     private EditText customerNameEditText;
     private EditText customerAddrEditText;
     private EditText customerPhEditText;
-    private ProgressBar progressBar;
+    private Toolbar toolbar;
     private FirebaseAuth mAuth;
     private DatabaseReference ordersDB;
 
@@ -46,7 +45,6 @@ public class CreateOrder extends AppCompatActivity {
         customerNameEditText = findViewById(R.id.customerNameFld);
         customerAddrEditText = findViewById(R.id.customerAddrFld);
         customerPhEditText = findViewById(R.id.customerPhFld);
-        progressBar = findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
         ordersDB = FirebaseDatabase.getInstance().getReference("users/vendors/" + mAuth.getUid() + "/orders");
 
