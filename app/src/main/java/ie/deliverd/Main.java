@@ -1,6 +1,7 @@
 package ie.deliverd;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,6 +11,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,16 +57,10 @@ public class Main extends FragmentActivity implements OnMapReadyCallback {
                 double longitude = location.getLongitude();
                 //get the location name from latitude and longitude
                 Geocoder geocoder = new Geocoder(getApplicationContext());
-                try {
-                    List<Address> addresses =
-                            geocoder.getFromLocation(latitude, longitude, 1);
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
-                    mMap.setMaxZoomPreference(20);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                LatLng latLng = new LatLng(latitude, longitude);
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
+                mMap.setMaxZoomPreference(20);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
             }
 
             @Override
@@ -99,5 +95,10 @@ public class Main extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+    }
+
+    public void sendUser(View view){
+        Intent intent = new Intent(Main.this, User.class);
+        startActivity(intent);
     }
 }
