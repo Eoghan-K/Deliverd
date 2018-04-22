@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -149,7 +148,7 @@ public class CreateOrder extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logout){
             mAuth.signOut();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, User.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

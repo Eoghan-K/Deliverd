@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class User extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user);
 
         findViewById(R.id.signUpBtn).setOnClickListener(this);
         findViewById(R.id.loginBtn).setOnClickListener(this);
@@ -50,11 +50,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Driver driver = dataSnapshot.child(uid).getValue(Driver.class);
                 if (driver != null) {
                     if (driver.getDriverId() != null) {
-                        startActivity(new Intent(MainActivity.this, DriverDashboard.class)
+                        startActivity(new Intent(User.this, DriverDashboard.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent
                                         .FLAG_ACTIVITY_CLEAR_TASK));
                     } else {
-                        startActivity(new Intent(MainActivity.this, VendorDashboard.class)
+                        startActivity(new Intent(User.this, VendorDashboard.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent
                                         .FLAG_ACTIVITY_CLEAR_TASK));
                     }

@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +70,7 @@ public class DriverDashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logout){
             mAuth.signOut();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, User.class));
             finish();
         }
         return super.onOptionsItemSelected(item);
