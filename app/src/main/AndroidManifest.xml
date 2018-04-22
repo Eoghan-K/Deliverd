@@ -28,21 +28,23 @@
         <activity
             android:name=".DriverSignUp"
             android:label="Driver Sign Up"
-            android:parentActivityName=".User" />
+            android:parentActivityName=".Main" />
         <activity
             android:name=".Login"
             android:label="Login"
-            android:parentActivityName=".User" />
+            android:parentActivityName=".Main" />
         <activity
             android:name=".VendorSignUp"
             android:label="Vendor Sign Up"
-            android:parentActivityName=".User" />
+            android:parentActivityName=".Main" />
         <activity
             android:name=".DriverDashboard"
-            android:label="Dashboard" />
+            android:label="Dashboard"
+            android:parentActivityName=".Main"/>
         <activity
             android:name=".VendorDashboard"
-            android:label="Dashboard" />
+            android:label="Dashboard"
+            android:parentActivityName=".Main"/>
         <activity
             android:name=".CreateOrder"
             android:label="Create Order"

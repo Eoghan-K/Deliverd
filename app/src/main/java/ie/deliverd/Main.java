@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,6 +29,7 @@ public class Main extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private LocationManager manager;
     private LocationListener locationListener;
+    private LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +58,8 @@ public class Main extends FragmentActivity implements OnMapReadyCallback {
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
                 //get the location name from latitude and longitude
-                Geocoder geocoder = new Geocoder(getApplicationContext());
-                LatLng latLng = new LatLng(latitude, longitude);
+                latLng = new LatLng(latitude, longitude);
                 mMap.addMarker(new MarkerOptions().position(latLng).title("Your Location"));
-                mMap.setMaxZoomPreference(20);
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
             }
 
@@ -80,6 +80,12 @@ public class Main extends FragmentActivity implements OnMapReadyCallback {
         };
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
+        findViewById(R.id.findMeButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+            }
+        });
     }
 
 

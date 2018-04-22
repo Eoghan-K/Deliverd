@@ -9,15 +9,20 @@
     tools:context=".Main" >
 
     <Button
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="right|top"
-    android:text="Account"
-    android:padding="10dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginRight="8dp"
-    android:paddingRight="10dp"
+    android:layout_gravity="top"
+    android:text="Dashboard"
     android:backgroundTint="?attr/colorPrimary"
     android:textColor="#ffffff"
     android:onClick="sendUser" />
+
+    <Button
+        android:id="@+id/findMeButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Find Me"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="#ffffff" />
 </fragment>
