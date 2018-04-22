@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".User"
-            android:label="User"
+            android:label="Account Management"
             android:parentActivityName=".Main" />
         <activity
             android:name=".DriverSignUp"

@@ -128,6 +128,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="#ffffff"
         android:elevation="0dp"
         android:text="Sign Up"
         app:layout_constraintEnd_toEndOf="parent"

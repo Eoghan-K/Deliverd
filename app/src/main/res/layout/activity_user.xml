@@ -32,11 +32,15 @@
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="#ffffff"
             android:text="Login" />
 
         <Button
             android:id="@+id/signUpBtn"
             android:layout_width="match_parent"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="#ffffff"
             android:layout_height="wrap_content"
             android:text="Sign Up" />
     </LinearLayout>
