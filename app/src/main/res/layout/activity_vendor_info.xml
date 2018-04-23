@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="ie.deliverd.VendorInfo"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="576dp"
+        android:background="@drawable/gradientbackground"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/My_Info"
+            android:layout_width="324dp"
+            android:layout_height="499dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="31sp"
+            android:textStyle="bold" />
+
+
+        <Button
+            android:id="@+id/ReturnBtn"
+            android:layout_width="188dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="95dp"
+            android:layout_marginRight="95dp"
+            android:background="@drawable/buttonstylegradient"
+            android:text="Return"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+</ScrollView>
