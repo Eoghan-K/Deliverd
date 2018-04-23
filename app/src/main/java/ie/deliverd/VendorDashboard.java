@@ -31,6 +31,7 @@ public class VendorDashboard extends AppCompatActivity {
     private DatabaseReference orderDB;
     private List<Order> orderList;
     private ListView listViewOrders;
+    private FloatingActionButton orderActionButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class VendorDashboard extends AppCompatActivity {
         setContentView(R.layout.activity_vendor_dashboard);
 
         orderActionButton = findViewById(R.id.orderActionButton);
+        orderActionButton2 = findViewById(R.id.orderActionButton2);
         toolbar = findViewById(R.id.toolbar);
         mAuth = FirebaseAuth.getInstance();
         orderDB = FirebaseDatabase.getInstance().getReference("users/vendors/" + mAuth.getUid()+ "/orders");
@@ -53,6 +55,14 @@ public class VendorDashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(VendorDashboard.this, CreateOrder.class));
+            }
+        });
+
+
+        orderActionButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(VendorDashboard.this, VendorProfile.class));
             }
         });
     }

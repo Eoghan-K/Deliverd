@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:permissionGroup="android.permission-group.STORAGE"
+        android:protectionLevel="dangerous" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,9 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Main"
-            android:label="@string/title_activity_main">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,29 +25,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".User"
-            android:label="Account Management"
-            android:parentActivityName=".Main" />
-        <activity
             android:name=".DriverSignUp"
             android:label="Driver Sign Up"
-            android:parentActivityName=".Main" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Login"
             android:label="Login"
-            android:parentActivityName=".Main" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".VendorSignUp"
             android:label="Vendor Sign Up"
-            android:parentActivityName=".Main" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DriverDashboard"
-            android:label="Dashboard"
-            android:parentActivityName=".Main"/>
+            android:label="Dashboard" />
         <activity
             android:name=".VendorDashboard"
-            android:label="Dashboard"
-            android:parentActivityName=".Main"/>
+            android:label="Dashboard" />
         <activity
             android:name=".CreateOrder"
             android:label="Create Order"
@@ -61,6 +58,12 @@
         <activity
             android:name=".DriverMap"
             android:label="@string/title_activity_driver_map" />
+        <activity android:name=".VendorProfile" />
+        <activity android:name=".EditVendorProfile" />
+        <activity android:name=".DriverProfile" />
+        <activity android:name=".EditDriverProfile" />
+        <activity android:name=".DriverInfo" />
+        <activity android:name=".VendorInfo"></activity>
     </application>
 
 </manifest>

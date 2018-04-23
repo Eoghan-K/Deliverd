@@ -1,6 +1,7 @@
 package ie.deliverd;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,7 @@ public class DriverDashboard extends AppCompatActivity {
     private DatabaseReference vendorsDB;
     private List<Order> orderList;
     private ListView listViewOrders;
+    private FloatingActionButton orderActionButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class DriverDashboard extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         username = findViewById(R.id.username);
         username.setText(mAuth.getCurrentUser().getDisplayName());
+        orderActionButton2 = findViewById(R.id.orderActionButton2);
         orderList = new ArrayList<>();
         listViewOrders = findViewById(R.id.listViewOrders);
 
@@ -55,6 +58,13 @@ public class DriverDashboard extends AppCompatActivity {
                 Intent intent = new Intent(DriverDashboard.this, OrderDetails.class);
                 intent.putExtra("order", order);
                 startActivity(intent);
+            }
+        });
+
+        orderActionButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DriverDashboard.this, DriverProfile.class));
             }
         });
     }
