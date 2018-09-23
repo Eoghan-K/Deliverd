@@ -67,7 +67,7 @@ public class CreateOrder extends AppCompatActivity {
         String customerPhAddr = customerPhEditText.getText().toString().trim();
 
         if (orderTitle.equals("")) {
-            orderTitleEditText.setError("Am order title is required");
+            orderTitleEditText.setError("An order title is required");
             orderTitleEditText.requestFocus();
             return;
         }
